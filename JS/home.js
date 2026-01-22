@@ -98,6 +98,7 @@ function mostrarTareas() {
     taskContainer.dataset.status = tarea.status.toLowerCase();
 
     taskContainer.innerHTML = `
+        <div class="col-6 cardCard" data-priority="${tarea.priority.toLowerCase()}" data-status="${tarea.status.toLowerCase()}" data-category="${tarea.category.toLowerCase()}">
             <section class="card" onclick="seleccionarTarea(${index})">
                 <div class="card-body">
                 <header class="d-flex">
@@ -206,7 +207,7 @@ btnDeleteDetail.addEventListener("click", function () {
   detailStatus.innerText = "";
 });
 
-// FILTRE TAREAS
+// ---------- FILTRAR TAREAS
 
 const filterButtons = document.querySelectorAll(".filter-btn");
 
@@ -235,6 +236,8 @@ filterButtons.forEach(btn => {
   });
 });
 
+// -------- filtro status
+
 const filterStatusButtons = document.querySelectorAll(".filter-status-btn");
 
 filterStatusButtons.forEach(btn => {
@@ -262,9 +265,33 @@ filterStatusButtons.forEach(btn => {
   });
 });
 
+// -------- filtro categoria
 
+const filterCategoryButtons = document.querySelectorAll(".filter-category-btn");
 
+filterCategoryButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
 
+    const categorySelected = btn.textContent.trim().toLowerCase();
+    const cards = document.querySelectorAll("#contenedor-padre-tareas .cardCard");
 
+    let found = false;
+
+    cards.forEach(card => {
+      const category = card.dataset.category;
+
+      if (category === categorySelected) {
+        card.style.display = "";
+        found = true;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    if (!found) {
+      alert("No tasks found with the selected category.");
+    }
+  });
+});
 
 
