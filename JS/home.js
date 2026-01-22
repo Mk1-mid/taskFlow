@@ -102,7 +102,7 @@ function mostrarTareas() {
   tareas.forEach((tarea, index) => {
     const taskContainer = document.createElement('div');
     taskContainer.innerHTML = `
-        <div class="col-6 cardCard">
+        <div class="col-6 cardCard" data-priority="${tarea.priority.toLowerCase()}" data-status="${tarea.status.toLowerCase()}" data-category="${tarea.category.toLowerCase()}">
             <section class="card" onclick="seleccionarTarea(${index})">
                 <div class="card-body">
                 <header class="d-flex">
@@ -123,6 +123,7 @@ function mostrarTareas() {
     contenedorPadre.append(taskContainer);
   });
 }
+
 
 // ---------- ELIMINAR TAREA
 function eliminarTarea(index) {
@@ -189,7 +190,8 @@ btnEditDetail.addEventListener("click", (e) => {
   document.getElementById('taskCategory').value = tarea.category;
   document.getElementById('taskStatus').value = tarea.status;
 
-  // modoEdicion = true;
+  document.getElementById('taskStatus').disabled = false;
+
   saveTaskButton.innerText = "Save";
 
   new bootstrap.Modal(document.querySelector('#createTaskModal')).show();
@@ -213,4 +215,90 @@ btnDeleteDetail.addEventListener("click", function () {
   detailStatus.innerText = "";
 });
 
+// ---------- FILTRAR TAREAS
+
+const filterButtons = document.querySelectorAll(".filter-btn");
+
+filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        const prioritySelected = btn.textContent.trim().toLowerCase();
+        const cards = document.querySelectorAll("#contenedor-padre-tareas .cardCard");
+
+        let found = false;
+
+        cards.forEach(card => {
+            const priority = card.dataset.priority;
+
+            if (priority === prioritySelected) {
+                card.style.display = "";
+                found = true;
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        if (!found) {
+            alert("No tasks found with the selected priority.");
+        }
+    });
+});
+
+// -------- filtro status
+
+const filterStatusButtons = document.querySelectorAll(".filter-status-btn");
+
+filterStatusButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    const statusSelected = btn.textContent.trim().toLowerCase();
+    const cards = document.querySelectorAll("#contenedor-padre-tareas .cardCard");
+
+    let found = false;
+
+    cards.forEach(card => {
+      const status = card.dataset.status;
+
+      if (status === statusSelected) {
+        card.style.display = "";
+        found = true;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    if (!found) {
+      alert("No tasks found with the selected status.");
+    }
+  });
+});
+
+// -------- filtro categoria
+
+const filterCategoryButtons = document.querySelectorAll(".filter-category-btn");
+
+filterCategoryButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    const categorySelected = btn.textContent.trim().toLowerCase();
+    const cards = document.querySelectorAll("#contenedor-padre-tareas .cardCard");
+
+    let found = false;
+
+    cards.forEach(card => {
+      const category = card.dataset.category;
+
+      if (category === categorySelected) {
+        card.style.display = "";
+        found = true;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    if (!found) {
+      alert("No tasks found with the selected category.");
+    }
+  });
+});
 
