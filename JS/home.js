@@ -302,4 +302,3 @@ filterCategoryButtons.forEach(btn => {
   });
 });
 
-
